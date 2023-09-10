@@ -33,7 +33,6 @@ class Command(BaseCommand):
 
             # Get the currency and unit objects
             currency = Currency.objects.get(name='Indian Rupee')  # Replace 'Your Currency Name' with your actual currency name
-            print(df_row['unit'])
             unit = Unit.objects.get(name=df_row['unit'])
 
             # Create the price
