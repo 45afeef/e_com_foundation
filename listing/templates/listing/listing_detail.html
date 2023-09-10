@@ -1,0 +1,39 @@
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6">
+      {% with listing.media_set.first as media %}
+        {% if media %}
+          <img src="{{ media.file.url }}" class="img-fluid" alt="{{ listing.name }}">
+        {% else %}
+          <img src="https://picsum.photos/200/300" class="img-fluid" alt="Placeholder Image">
+        {% endif %}
+      {% endwith %}
+    </div>
+    <div class="col-md-6">
+      <h2>{{ listing.name }}</h2>
+      <p>{{ listing.description }}</p>
+      <h4>Details</h4>
+      <ul>
+        <li>Purchasable: {{ listing.is_purchaseable }}</li>
+        <li>Maximum Quantity: {{ listing.maximum_qty }}</li>
+        <li>Minimum Quantity: {{ listing.minimum_qty }}</li>
+        {% if listing.height and listing.weight %}
+          <li>Height: {{ listing.height }} cm</li>
+          <li>Weight: {{ listing.weight }} kg</li>
+        {% endif %}
+        {% if listing.available_at and listing.not_available_at %}
+          <li>Available At: {{ listing.available_at }}</li>
+          <li>Not Available At: {{ listing.not_available_at }}</li>
+        {% endif %}
+      </ul>
+      {% comment %} <a href="{% url 'listing-edit' listing.pk %}" class="btn btn-primary">Edit Listing</a> {% endcomment %}
+    </div>
+  </div>
+</div>
+{% endblock %}
