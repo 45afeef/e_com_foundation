@@ -33,6 +33,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ('name',)
     search_fields = ('name',)
     inlines = [PriceInline,MediaInline]
+    prepopulated_fields = {'slug': ('name',)}
 
     def display_medias(self, obj):
         html = '<img src="{}" style="max-width: 50px; max-height: 50px;" />'
@@ -53,6 +54,8 @@ class ServiceAdmin(admin.ModelAdmin):
     list_display = ('name','display_medias','get_price')
     readonly_fields = ('post_date', 'update_date')
     inlines = [PriceInline,MediaInline]
+    prepopulated_fields = {'slug': ('name',)}
+
 
     def display_medias(self, obj):
         html = '<img src="{}" style="max-width: 50px; max-height: 50px;" />'

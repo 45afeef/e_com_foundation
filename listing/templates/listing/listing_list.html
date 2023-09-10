@@ -64,7 +64,7 @@ New Gallery of all Listings
                       </p>
                   {% endif %}
               {% endwith %}
-              <a href="{% url listing.get_listing_type|lower|add:'-detail' listing.pk %}" class="btn btn-primary btn-lg btn-block">Grab the Deal Now!</a>
+              <a href="{% url listing.get_listing_type|lower|add:'-detail' listing.slug %}" class="btn btn-primary btn-lg btn-block">Grab the Deal Now!</a>
             </div>
             
           </div>

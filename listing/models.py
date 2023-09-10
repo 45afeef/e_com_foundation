@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.html import format_html
+from django.utils.text import slugify
 
 class Price(models.Model):
     mrp = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
@@ -42,6 +43,7 @@ class Listing(models.Model):
     max_qty = models.IntegerField(default=1)
     post_date = models.DateTimeField(default=timezone.now)
     update_date = models.DateTimeField(auto_now=True)
+    slug = models.SlugField(unique=True)
 
     class Meta:
         abstract = False
@@ -59,6 +61,20 @@ class Listing(models.Model):
             return 'Service'
         else:
             return 'Listing'
+    
+    def save(self, *args, **kwargs):
+        # Genereate unique slugs
+        if not self.slug:
+            value = self.name
+            slug_candidate = slugify(value, allow_unicode=True)
+            self.slug = slug_candidate
+            if Listing.objects.filter(slug=self.slug).exists():
+                for i in range(1, 100):
+                    slug_candidate = f"{slug_candidate}-{i}"
+                    if not Listing.objects.filter(slug=slug_candidate).exists():
+                        self.slug = slug_candidate
+                        break
+        super().save(*args, **kwargs)
 
 
 class Product(Listing):
