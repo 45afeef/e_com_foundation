@@ -53,13 +53,13 @@ New Gallery of all Listings
                   {% if price %}
                       <p class="card-text">
                           {% if price.offerprice %}
-                              <del>Sale Price: {{ price.saleprice }}</del> 
-                              <strong class="text-success">Special Offer: {{ price.offerprice }}</strong>
+                              <del>Sale Price:  {{ price.currency.symbol }}{{ price.saleprice }}</del> 
+                              <strong class="text-success">Special Offer:  {{ price.currency.symbol }}{{ price.offerprice }}</strong>
                           {% else %}
                             {% if price.mrp %}
-                                <del>MRP: {{ price.mrp }}</del>
+                                <del>MRP: {{ price.currency.symbol }}{{ price.mrp }}</del>
                             {% endif %}
-                            <strong>Sale Price: {{ price.saleprice }}</strong>
+                            <strong>Sale Price:  {{ price.currency.symbol }}{{ price.saleprice }}</strong>
                           {% endif %}
                       </p>
                   {% endif %}
