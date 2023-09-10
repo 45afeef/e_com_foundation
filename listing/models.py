@@ -3,9 +3,9 @@ from django.utils import timezone
 from django.utils.html import format_html
 
 class Price(models.Model):
-    mrp = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    mrp = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     saleprice = models.DecimalField(max_digits=10, decimal_places=2)
-    offerprice = models.DecimalField(max_digits=10, decimal_places=2,null=True)
+    offerprice = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
     currency = models.ForeignKey('Currency', on_delete=models.CASCADE)
     listing = models.ForeignKey('Listing', on_delete=models.CASCADE)
     unit = models.ForeignKey('Unit', on_delete=models.CASCADE)
@@ -62,8 +62,8 @@ class Listing(models.Model):
 
 
 class Product(Listing):
-    height = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    weight = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    height = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    weight = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -71,7 +71,7 @@ class Product(Listing):
 
 class Service(Listing):
     available_at = models.DateTimeField(default=timezone.now)
-    not_available_at = models.DateTimeField(null=True)
+    not_available_at = models.DateTimeField(null=True, blank=True)
     
     def __str__(self):
         return self.name

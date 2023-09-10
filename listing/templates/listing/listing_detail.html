@@ -39,10 +39,12 @@
           {% if price %}
             <p>
               {% if price.offerprice %}
-                <del>{{ price.currency.symbol }}{{ price.mrp }}</del> 
+                <del>Sale Price: {{ price.currency.symbol }}{{ price.saleprice }}</del> 
                 <span class="text-success h4">Special Offer: {{ price.currency.symbol }}{{ price.offerprice }}</span>
               {% else %}
-                <del>{{ price.currency.symbol }}{{ price.mrp }}</del> 
+                {% if price.mrp %}
+                  <del>MRP: {{ price.currency.symbol }}{{ price.mrp }}</del> 
+                {% endif %}
                 Sale Price: {{ price.currency.symbol }}{{ price.saleprice }}
               {% endif %}
             </p>
