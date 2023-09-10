@@ -19,20 +19,54 @@ New Gallery of all Listings
       {% for listing in object_list %}
         <div class="col-md-4 d-flex">
           <div class="card mb-4 shadow-sm">
-            {% with listing.media_set.first as media %}
-                {% if media %}
-                    <img src="{{ media.file.url }}" class="card-img-top" alt="{{ listing.name }}">
-                {% else %}
-                    <img src="https://picsum.photos/300/300" class="card-img-top" alt="Placeholder Image">
-                {% endif %}
-            {% endwith %}
+            {% comment %} Image carousel {% endcomment %}
+            <div id="carouselExampleIndicators{{ listing.pk }}" class="carousel slide" data-ride="carousel">
+              <ol class="carousel-indicators">
+                  {% for media in listing.media_set.all %}
+                      <li data-target="#carouselExampleIndicators{{ listing.pk }}" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></li>
+                  {% endfor %}
+              </ol>
+              <div class="carousel-inner">
+                  {% for media in listing.media_set.all %}
+                      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                          <img src="{{ media.file.url }}" class="d-block w-100" alt="{{ listing.name }}">
+                      </div>
+                  {% endfor %}
+              </div>
+              <a class="carousel-control-prev" href="#carouselExampleIndicators{{ listing.pk }}" role="button" data-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#carouselExampleIndicators{{ listing.pk }}" role="button" data-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+              </a>
+            </div>
+            {% comment %} Card body {% endcomment %}
             <div class="card-body">
               <h5 class="card-title">{{ listing.name }} 
-                <span class="badge badge-secondary">{{ listing.get_listing_type }}</span>
+                  <span class="badge badge-secondary">{{ listing.get_listing_type }}</span>
               </h5>
               <p class="card-text">{{ listing.description }}</p>
-              <a href="{% url 'listing-detail' listing.pk %}" class="btn btn-primary">View Details</a>
+              {% comment %} Pricing section {% endcomment %}
+              {% with listing.price_set.first as price %}
+                  {% if price %}
+                      <p class="card-text">
+                          {% if price.offerprice %}
+                              <del>Sale Price: {{ price.saleprice }}</del> 
+                              <strong class="text-success">Special Offer: {{ price.offerprice }}</strong>
+                          {% else %}
+                            {% if price.mrp %}
+                                <del>MRP: {{ price.mrp }}</del>
+                            {% endif %}
+                            <strong>Sale Price: {{ price.saleprice }}</strong>
+                          {% endif %}
+                      </p>
+                  {% endif %}
+              {% endwith %}
+              <a href="{% url 'listing-detail' listing.pk %}" class="btn btn-primary btn-lg btn-block">Grab the Deal Now!</a>
             </div>
+            
           </div>
         </div>
       {% endfor %}

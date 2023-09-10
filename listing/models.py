@@ -82,6 +82,9 @@ class Currency(models.Model):
     symbol = models.CharField(max_length=3)
     name = models.CharField(max_length=200)
     
+    class Meta:
+        verbose_name_plural = 'Currencies'
+        
     def __str__(self):
         return self.name
 
@@ -96,7 +99,7 @@ class Unit(models.Model):
         ('Area', 'Area'),
     )
     name = models.CharField(max_length=200, unique=True)
-    symbol = models.CharField(max_length=3, unique=True)
+    symbol = models.CharField(max_length=10, unique=True)
     unit_type = models.CharField(max_length=8, choices=UNIT_TYPES)
     conversion_factor = models.DecimalField(max_digits=10, decimal_places=2)
 
