@@ -3,52 +3,54 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
+
+
 {% block content %}
-<div class="container mt-5">
-  <div class="row">
-    <div class="col-md-6">
-      <div id="carouselExampleIndicators{{ listing.pk }}" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-            {% for media in listing.media_set.all %}
-                <li data-target="#carouselExampleIndicators{{ listing.pk }}" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></li>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-6">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            {% for media in object.media_set.all %}
+              <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></li>
             {% endfor %}
-        </ol>
-        <div class="carousel-inner">
-            {% for media in listing.media_set.all %}
-                <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                    <img src="{{ media.file.url }}" class="d-block w-100" alt="{{ listing.name }}">
-                </div>
+          </ol>
+          <div class="carousel-inner">
+            {% for media in object.media_set.all %}
+              <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <img src="{{ media.file.url }}" class="d-block w-100" alt="{{ object.name }}">
+              </div>
             {% endfor %}
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators{{ listing.pk }}" role="button" data-slide="prev">
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators{{ listing.pk }}" role="button" data-slide="next">
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
-        </a>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h1>{{ object.name }}</h1>
+        <p>{{ object.description }}</p>
+        {% with object.price_set.first as price %}
+          {% if price %}
+            <p>
+              {% if price.offerprice %}
+                <del>{{ price.currency.symbol }}{{ price.mrp }}</del> 
+                <span class="text-success h4">Special Offer: {{ price.currency.symbol }}{{ price.offerprice }}</span>
+              {% else %}
+                <del>{{ price.currency.symbol }}{{ price.mrp }}</del> 
+                Sale Price: {{ price.currency.symbol }}{{ price.saleprice }}
+              {% endif %}
+            </p>
+          {% endif %}
+        {% endwith %}
+        <!-- Add to cart button -->
+        <a href="{% url 'add-to-cart' object.pk %}" class="btn btn-primary btn-lg btn-block">Add to Cart</a>
       </div>
     </div>
-    <div class="col-md-6">
-      <h2>{{ listing.name }}</h2>
-      <p>{{ listing.description }}</p>
-      <h4>Details</h4>
-      <ul>
-        <li>Purchasable: {{ listing.is_purchaseable }}</li>
-        <li>Maximum Quantity: {{ listing.maximum_qty }}</li>
-        <li>Minimum Quantity: {{ listing.minimum_qty }}</li>
-        {% if listing.height and listing.weight %}
-          <li>Height: {{ listing.height }} cm</li>
-          <li>Weight: {{ listing.weight }} kg</li>
-        {% endif %}
-        {% if listing.available_at and listing.not_available_at %}
-          <li>Available At: {{ listing.available_at }}</li>
-          <li>Not Available At: {{ listing.not_available_at }}</li>
-        {% endif %}
-      </ul>
-      {% comment %} <a href="{% url 'listing-edit' listing.pk %}" class="btn btn-primary">Edit Listing</a> {% endcomment %}
-    </div>
-  </div>
-</div>
+  </div>  
 {% endblock %}
