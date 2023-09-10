@@ -2,9 +2,6 @@ from django.core.management.base import BaseCommand
 from django.core.management import call_command
 from django.contrib.auth.models import User
 
-from .populate_db import Command as DB
-
-
 class Command(BaseCommand):
     help = 'Runs makemigrations, migrate, creates a superuser and populate databases'
 
