@@ -44,6 +44,17 @@ class Listing(models.Model):
     
     def __str__(self):
         return self.name
+    
+    # In this code, hasattr(self, 'product') checks if the Listing instance has a related Product instance, 
+    # and hasattr(self, 'service') checks for a related Service instance. 
+    # You can then use this method in your ListView to display the appropriate tag.
+    def get_listing_type(self):
+        if hasattr(self, 'product'):
+            return 'Product'
+        elif hasattr(self, 'service'):
+            return 'Service'
+        else:
+            return 'Listing'
 
 
 class Product(Listing):

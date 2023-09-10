@@ -1,8 +1,6 @@
-
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
 
 New Gallery of all Listings
 <style>
@@ -13,13 +11,12 @@ New Gallery of all Listings
       transform: scale(1.01);
       box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     }
-  </style>
-  
-  {% block content %}
-  <div class="container">
+</style>
+
+{% block content %}
+<div class="container">
     <div class="row">
       {% for listing in object_list %}
-        {% comment %} {{listing.get_type}} {% endcomment %}
         <div class="col-md-4 d-flex">
           <div class="card mb-4 shadow-sm">
             {% with listing.media_set.first as media %}
@@ -30,7 +27,9 @@ New Gallery of all Listings
                 {% endif %}
             {% endwith %}
             <div class="card-body">
-              <h5 class="card-title">{{ listing.name }}</h5>
+              <h5 class="card-title">{{ listing.name }} 
+                <span class="badge badge-secondary">{{ listing.get_listing_type }}</span>
+              </h5>
               <p class="card-text">{{ listing.description }}</p>
               <a href="{% url 'listing-detail' listing.pk %}" class="btn btn-primary">View Details</a>
             </div>
@@ -38,6 +37,5 @@ New Gallery of all Listings
         </div>
       {% endfor %}
     </div>
-  </div>  
-  {% endblock %}
-  
+</div>  
+{% endblock %}
