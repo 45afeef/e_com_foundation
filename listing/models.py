@@ -1,10 +1,11 @@
 from django.db import models
+from django.utils import timezone
 from django.utils.html import format_html
 
 class Price(models.Model):
-    mrp = models.DecimalField(max_digits=10, decimal_places=2)
+    mrp = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     saleprice = models.DecimalField(max_digits=10, decimal_places=2)
-    offerprice = models.DecimalField(max_digits=10, decimal_places=2)
+    offerprice = models.DecimalField(max_digits=10, decimal_places=2,null=True)
     currency = models.ForeignKey('Currency', on_delete=models.CASCADE)
     listing = models.ForeignKey('Listing', on_delete=models.CASCADE)
     unit = models.ForeignKey('Unit', on_delete=models.CASCADE)
@@ -34,10 +35,13 @@ class Media(models.Model):
     preview.short_description = 'Preview Of Media'
 
 
-
 class Listing(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
+    min_qty = models.IntegerField(default=1)
+    max_qty = models.IntegerField(default=1)
+    post_date = models.DateTimeField(default=timezone.now)
+    update_date = models.DateTimeField(auto_now=True)
 
     class Meta:
         abstract = False
@@ -58,28 +62,29 @@ class Listing(models.Model):
 
 
 class Product(Listing):
-    height = models.DecimalField(max_digits=10, decimal_places=2)
-    weight = models.DecimalField(max_digits=10, decimal_places=2)
+    height = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    weight = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
     def __str__(self):
         return self.name
 
 
 class Service(Listing):
-    available_at = models.DateTimeField()
-    not_available_at = models.DateTimeField()
+    available_at = models.DateTimeField(default=timezone.now)
+    not_available_at = models.DateTimeField(null=True)
     
     def __str__(self):
         return self.name
 
 
 class Currency(models.Model):
-    code = models.CharField(max_length=3)
+    code = models.CharField(max_length=3, unique=True)
     symbol = models.CharField(max_length=3)
     name = models.CharField(max_length=200)
     
     def __str__(self):
         return self.name
+
 
 class Unit(models.Model):
     UNIT_TYPES = (
@@ -90,8 +95,8 @@ class Unit(models.Model):
         ('Time', 'Time'),
         ('Area', 'Area'),
     )
-    name = models.CharField(max_length=200)
-    symbol = models.CharField(max_length=3)
+    name = models.CharField(max_length=200, unique=True)
+    symbol = models.CharField(max_length=3, unique=True)
     unit_type = models.CharField(max_length=8, choices=UNIT_TYPES)
     conversion_factor = models.DecimalField(max_digits=10, decimal_places=2)
 

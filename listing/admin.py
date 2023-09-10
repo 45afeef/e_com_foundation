@@ -29,6 +29,7 @@ class MediaAdmin(admin.ModelAdmin):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'display_medias','get_price')
+    readonly_fields = ('post_date', 'update_date')
     list_filter = ('name',)
     search_fields = ('name',)
     inlines = [PriceInline,MediaInline]
@@ -49,7 +50,8 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('name','display_medias','get_price')    
+    list_display = ('name','display_medias','get_price')
+    readonly_fields = ('post_date', 'update_date')
     inlines = [PriceInline,MediaInline]
 
     def display_medias(self, obj):
