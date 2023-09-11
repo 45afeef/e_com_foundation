@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 
 import pandas as pd
 
-from listing.models import Price, Listing, Product, Service, Currency, Unit, Media
+from listing_app.models import Price, Listing, Product, Service, Currency, Unit, Media
 
 class Command(BaseCommand):
     help = 'Populate the database with initial data'

@@ -6,7 +6,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # Get all models in the 'listing' app
-        models = apps.get_app_config('listing').get_models()
+        models = apps.get_app_config('listing_app').get_models()
 
         # Iterate over all models and delete all objects
         for model in models:
