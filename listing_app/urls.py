@@ -6,7 +6,7 @@ from django.http import HttpResponse
 def cart(request, id):
     return HttpResponse(f"This is the cart of {id}")
 
-name = 'listing'
+name = 'listing_app'
 urlpatterns = [
     path('',views.index),
     path('listings',views.ListingListView.as_view(), name="listing-list"),
