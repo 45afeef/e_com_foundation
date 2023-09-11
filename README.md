@@ -16,6 +16,18 @@ Ready to get started? Here's how:
 
 And voila! You're up and running with E-Commerce Foundation.
 
+## 📚 Application Overview
+
+E-Commerce Foundation is built around three main Django apps:
+
+1. **User-app**: This app manages all user-related functionalities. It handles user registration, authentication, profile management, and other user-specific features.
+
+2. **Listing-app**: This app is responsible for all listing-related functionalities. It allows users to create, update, delete, and view listings. It also provides features for searching and filtering listings based on various criteria.
+
+3. **Order-app**: This app manages the order process. It handles order creation, updates, status tracking, and payment processing.
+
+Each of these apps plays a crucial role in the functionality of the E-Commerce Foundation platform and contributes to providing a seamless user experience.
+
 ## 🤝 Contributing
 
 As this is a private repository, contributions are limited to members of the repository. If you are a member and would like to contribute, please see our [contributing guidelines](CONTRIBUTING.md) for more information.
