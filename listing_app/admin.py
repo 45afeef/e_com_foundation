@@ -56,7 +56,6 @@ class ServiceAdmin(admin.ModelAdmin):
     inlines = [PriceInline,MediaInline]
     prepopulated_fields = {'slug': ('name',)}
 
-
     def display_medias(self, obj):
         html = '<img src="{}" style="max-width: 50px; max-height: 50px;" />'
         return format_html(''.join(html.format(media.file.url) for media in obj.media_set.all() if media.media_type == "Image"))

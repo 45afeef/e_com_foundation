@@ -15,12 +15,12 @@ class ListingListView(ListView):
 
 class ProductListView(ListView):
     model = Product
-    template_name = "listing/listing_list.html"
+    template_name = "listing_app/listing_list.html"
 
 
 class ServiceListView(ListView):
     model = Service
-    template_name = "listing/listing_list.html"
+    template_name = "listing_app/listing_list.html"
 
 
 class ListingDetailView(DetailView):
@@ -29,9 +29,9 @@ class ListingDetailView(DetailView):
 
 class ProductDetailView(DetailView):
     model = Product
-    template_name = "listing/listing_detail.html"
+    template_name = "listing_app/listing_detail.html"
 
 
 class ServiceDetailView(DetailView):
     model = Service
-    template_name = "listing/listing_detail.html"
+    template_name = "listing_app/listing_detail.html"
